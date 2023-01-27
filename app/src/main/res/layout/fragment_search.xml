@@ -15,14 +15,27 @@
         android:layout_height="match_parent"
         tools:context=".ui.search.Search">
 
-        <EditText
-            android:id="@+id/search"
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/search_layout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/medium_margin"
-            android:text=""
-            android:textSize="@dimen/medium_text_size"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:hint="@string/search_hint"
+            android:inputType="text"
+            app:layout_constraintTop_toTopOf="parent"
+            app:startIconDrawable="@drawable/search">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints="emailAddress"
+                android:inputType="textEmailAddress"
+                android:onFocusChange="@{() -> viewModel.loginDataChanged()}"
+                android:text="@={viewModel.formInformation.search}"
+                app:checkLoginMail="@{viewModel.formState}" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/search_results"
@@ -30,6 +43,16 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/medium_margin"
             app:layout_constraintTop_toBottomOf="@id/search" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/search_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/medium_margin"
+            android:onClick="@{() -> viewModel.search()}"
+            android:text="@string/search"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

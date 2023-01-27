@@ -5,16 +5,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.ahk.inviousg.R
+import androidx.fragment.app.viewModels
+import com.ahk.inviousg.databinding.FragmentDetailedBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class Detailed : Fragment() {
 
+    val viewModel: DetailedViewModel by viewModels()
+    lateinit var binding: FragmentDetailedBinding
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_detailed, container, false)
+    ): View {
+        binding = FragmentDetailedBinding.inflate(inflater, container, false)
+        binding.lifecycleOwner = viewLifecycleOwner
+        return binding.root
     }
 }
