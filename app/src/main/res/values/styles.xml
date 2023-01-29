@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="CardViewWithBorder" parent="Widget.MaterialComponents.CardView">
+        <item name="borderWidth">5dp</item>
+        <item name="borderRound">2dp</item>
+    </style>
+    <style name="IMDBTextView" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textSize">@dimen/small_text_size</item>
+        <item name="backgroundColor">@color/imdb_background_color</item>
+        <item name="borderWidth">1dp</item>
+        <item name="borderRound">1dp</item>
+        <item name="android:drawableLeft">@drawable/icon_imdb</item>
+        <item name="android:drawablePadding">@dimen/drawable_padding</item>
+    </style>
+
+    <style name="horizontal_divider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/divider_dimen</item>
+        <item name="android:layout_margin">@dimen/medium_margin</item>
+        <item name="android:background">@android:color/darker_gray</item>
+    </style>
+
+    <style name="genre_text" parent="Widget.MaterialComponents.TextView">
+        <item name="android:layout_width">65dp</item>
+        <item name="android:layout_height">28dp</item>
+        <item name="borderRound">16dp</item>
+        <item name="borderWidth">3dp</item>
+    </style>
+
+</resources>

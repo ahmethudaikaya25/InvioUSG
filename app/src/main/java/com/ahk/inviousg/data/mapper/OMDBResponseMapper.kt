@@ -1,7 +1,7 @@
 package com.ahk.inviousg.data.mapper
 
+import com.ahk.inviousg.data.model.DataExceptions
 import com.ahk.inviousg.data.model.DetailedResponse
-import com.ahk.inviousg.data.model.OMDBExceptions
 import com.ahk.inviousg.data.model.SearchResponse
 import com.ahk.inviousg.data.model.SummaryItem
 import io.reactivex.Single
@@ -16,13 +16,13 @@ fun mapSearchResponse(response: Single<SearchResponse>): Single<List<SummaryItem
                     single.onSuccess(responseVal.summaryItems)
                 }
                 "False" -> {
-                    OMDBExceptions.getException(responseVal.error)
+                    DataExceptions.getException(responseVal.error)
                         .let { single.onError(it) }
                 }
             }
         }
         .doOnError {
-            println(it)
+            single.onError(DataExceptions.DataNetworkException("Network Error"))
         }
         .subscribe()
     return single
@@ -37,14 +37,14 @@ fun mapDetailedResponse(response: Single<DetailedResponse>): Single<DetailedResp
                     single.onSuccess(responseVal)
                 }
                 "False" -> {
-                    OMDBExceptions.getException(responseVal.error)
-                        .let { single.onError(it) }
+                    responseVal.error?.let { it ->
+                        DataExceptions.getException(it)
+                    }
                 }
             }
         }
         .doOnError {
-            println(it)
-        }
-        .subscribe()
+            single.onError(DataExceptions.DataNetworkException("Network Error"))
+        }.subscribe()
     return single
 }

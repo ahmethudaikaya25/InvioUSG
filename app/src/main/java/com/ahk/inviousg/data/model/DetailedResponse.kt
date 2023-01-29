@@ -1,56 +1,59 @@
 package com.ahk.inviousg.data.model
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class DetailedResponse(
     @SerializedName("Actors")
-    val actors: String,
+    val actors: String?,
     @SerializedName("Awards")
-    val awards: String,
+    val awards: String?,
     @SerializedName("BoxOffice")
-    val boxOffice: String,
+    val boxOffice: String?,
     @SerializedName("Country")
-    val country: String,
+    val country: String?,
     @SerializedName("DVD")
-    val dvd: String,
+    val dvd: String?,
     @SerializedName("Director")
-    val director: String,
+    val director: String?,
     @SerializedName("Error")
-    val error: String,
+    val error: String?,
     @SerializedName("Genre")
-    val genre: String,
+    val genre: String?,
     @SerializedName("Language")
-    val language: String,
+    val language: String?,
     @SerializedName("Metascore")
-    val metascore: String,
+    val metascore: String?,
     @SerializedName("Plot")
-    val plot: String,
+    val plot: String?,
     @SerializedName("Poster")
-    val poster: String,
+    val poster: String?,
     @SerializedName("Production")
-    val production: String,
+    val production: String?,
     @SerializedName("Rated")
-    val rated: String,
+    val rated: String?,
     @SerializedName("Ratings")
-    val ratings: List<Rating>,
+    val ratings: List<Rating>?,
     @SerializedName("Released")
-    val released: String,
+    val released: String?,
     @SerializedName("Response")
-    val response: String,
+    val response: String?,
     @SerializedName("Runtime")
-    val runtime: String,
+    val runtime: String?,
     @SerializedName("Title")
-    val title: String,
+    val title: String?,
     @SerializedName("Type")
-    val type: String,
+    val type: String?,
     @SerializedName("Website")
-    val website: String,
+    val website: String?,
     @SerializedName("Writer")
-    val writer: String,
+    val writer: String?,
     @SerializedName("Year")
-    val year: String,
+    val year: String?,
     @SerializedName("imdbID")
-    val imdbID: String,
-    val imdbRating: String,
-    val imdbVotes: String
-)
+    val imdbID: String?,
+    val imdbRating: String?,
+    val imdbVotes: String?
+) : Parcelable

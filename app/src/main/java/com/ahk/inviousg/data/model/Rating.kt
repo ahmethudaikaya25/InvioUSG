@@ -1,10 +1,13 @@
 package com.ahk.inviousg.data.model
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class Rating(
     @SerializedName("Source")
-    val source: String,
+    val source: String?,
     @SerializedName("Value")
-    val value: String
-)
+    val value: String?
+) : Parcelable

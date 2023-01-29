@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <import type="com.ahk.inviousg.ui.search.state.UIState"/>
         <variable
             name="viewModel"
             type="com.ahk.inviousg.ui.search.SearchViewModel" />
@@ -23,6 +23,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/search_hint"
             android:inputType="text"
+            app:isEnable="@{viewModel.uiState}"
             app:layout_constraintTop_toTopOf="parent"
             app:startIconDrawable="@drawable/search">
 
@@ -30,29 +31,40 @@
                 android:id="@+id/search"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:autofillHints="emailAddress"
-                android:inputType="textEmailAddress"
-                android:onFocusChange="@{() -> viewModel.loginDataChanged()}"
-                android:text="@={viewModel.formInformation.search}"
-                app:checkLoginMail="@{viewModel.formState}" />
+                app:isEnable="@{viewModel.uiState}"
+                android:afterTextChanged="@{() -> viewModel.searchTextChanged()}"
+                android:text="@={viewModel.formInformation.searchQuery}" />
         </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/linear_progress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:visibility="@{viewModel.uiState}"
+            app:layout_constraintTop_toBottomOf="@id/search_layout" />
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/circular_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="10dp"
+            app:indicatorColor="@color/md_theme_dark_onPrimary"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:visibility="@{viewModel.uiState}" />
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/search_results"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_margin="@dimen/medium_margin"
-            app:layout_constraintTop_toBottomOf="@id/search" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/search_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/medium_margin"
-            android:onClick="@{() -> viewModel.search()}"
-            android:text="@string/search"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            android:paddingBottom="50dp"
+            app:isEnable="@{viewModel.uiState}"
+            app:visibility="@{viewModel.uiState}"
+            app:layout_constraintTop_toBottomOf="@id/linear_progress" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -61,4 +61,5 @@
     <color name="md_theme_dark_surfaceTint">#FFB1C8</color>
     <color name="md_theme_dark_outlineVariant">#514347</color>
     <color name="md_theme_dark_scrim">#000000</color>
+    <color name="imdb_background_color">#F5C518</color>
 </resources>

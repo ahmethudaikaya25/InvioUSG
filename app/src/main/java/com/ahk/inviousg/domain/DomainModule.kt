@@ -2,6 +2,7 @@ package com.ahk.inviousg.domain
 
 import com.ahk.inviousg.data.api.OMDBAPIService
 import com.ahk.inviousg.domain.omdb.OMDBRepository
+import com.ahk.inviousg.domain.usecases.GetDetailsUseCase
 import com.ahk.inviousg.domain.usecases.SearchUseCase
 import dagger.Module
 import dagger.Provides
@@ -18,4 +19,8 @@ class DomainModule {
     @Provides
     fun provideSearchUseCase(omdbRepository: OMDBRepository): SearchUseCase =
         SearchUseCase(omdbRepository)
+
+    @Provides
+    fun provideGetDetailsUseCase(omdbRepository: OMDBRepository): GetDetailsUseCase =
+        GetDetailsUseCase(omdbRepository)
 }

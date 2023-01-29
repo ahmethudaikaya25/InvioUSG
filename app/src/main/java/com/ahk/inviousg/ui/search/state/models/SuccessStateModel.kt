@@ -1,8 +1,7 @@
 package com.ahk.inviousg.ui.search.state.models
 
-import android.app.appsearch.SearchResult
+import com.ahk.inviousg.data.model.SummaryItem
 
 data class SuccessStateModel(
-    val searchQuery: String,
-    val searchResults: List<SearchResult>
+    val searchResults: List<SummaryItem>
 )

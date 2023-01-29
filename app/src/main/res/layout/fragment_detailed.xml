@@ -1,21 +1,139 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
     </data>
 
-    <FrameLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.detailed.Detailed">
+        android:layout_height="match_parent">
 
-        <!-- TODO: Update blank fragment layout -->
-        <TextView
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment" />
+            android:layout_height="wrap_content">
 
-    </FrameLayout>
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/poster"
+                android:layout_width="match_parent"
+                android:layout_height="310dp"
+                android:layout_marginBottom="@dimen/medium_margin"
+                android:scaleType="centerCrop"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/poster_divider"
+                style="@style/horizontal_divider"
+                app:layout_constraintTop_toBottomOf="@id/poster" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Title"
+                android:textSize="@dimen/large_text_size"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/poster_divider" />
+
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/medium_margin"
+                android:drawableLeft="@drawable/movie_time"
+                android:drawablePadding="@dimen/drawable_padding"
+                android:text="minutes"
+                android:textSize="@dimen/small_text_size"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/title" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/imdbPoint"
+                style="@style/IMDBTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/medium_margin"
+                android:text="imdbPoint"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/title" />
+
+            <View
+                android:id="@+id/title_divider"
+                style="@style/horizontal_divider"
+                app:layout_constraintTop_toBottomOf="@id/time" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/releasedTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/medium_margin"
+                android:layout_marginTop="@dimen/medium_margin"
+                android:layout_marginBottom="@dimen/medium_margin"
+                android:text="Released date"
+                android:textSize="@dimen/medium_text_size"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/title_divider" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/releasedDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/medium_margin"
+                android:text="releasedDate"
+                android:textSize="@dimen/small_text_size"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/releasedTitle" />
+
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/genreTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/medium_margin"
+                android:text="Genre"
+                android:textSize="@dimen/medium_text_size"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/releasedTitle"
+                app:layout_constraintTop_toBottomOf="@id/title_divider" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/genreList"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/medium_margin"
+                app:layout_constraintStart_toStartOf="@id/genreTitle"
+                app:layout_constraintTop_toBottomOf="@id/genreTitle" />
+
+            <View
+                android:id="@+id/genre_divider"
+                style="@style/horizontal_divider"
+                app:layout_constraintTop_toBottomOf="@id/genreList" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/description_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/medium_margin"
+                android:textSize="@dimen/medium_text_size"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/genre_divider" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/medium_margin"
+                android:textSize="@dimen/small_text_size"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/description_title" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
 </layout>
