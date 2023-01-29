@@ -2,6 +2,7 @@ package com.ahk.inviousg.ui.home.adapter
 
 import android.view.View
 import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.ahk.inviousg.R
 import com.ahk.inviousg.data.model.DataExceptions
 import com.ahk.inviousg.ui.home.state.UIState
@@ -30,7 +31,7 @@ fun setErrorVisibility(view: MaterialTextView, uiState: UIState) {
                     view.visibility = View.VISIBLE
                 }
                 else -> {
-                    view.text = view.context.getString(R.string.database_error)
+                    view.text = view.context.getString(R.string.network_error)
                     view.visibility = View.VISIBLE
                 }
             }
@@ -39,8 +40,8 @@ fun setErrorVisibility(view: MaterialTextView, uiState: UIState) {
     }
 }
 
-@BindingAdapter("recentlyViewedTitleVisibility")
-fun setRecentlyViewedTitleVisibility(view: MaterialTextView, uiState: UIState) {
+@BindingAdapter("hideOnError")
+fun setRecentlyViewedTitleVisibility(view: View, uiState: UIState) {
     when (uiState) {
         is UIState.Error -> {
             view.visibility = View.GONE

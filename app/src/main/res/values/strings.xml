@@ -21,4 +21,5 @@
     <string name="welcome_app">Welcome to InvioUSG App</string>
     <string name="recently_viewed">Recently Viewed</string>
     <string name="database_error">Database error</string>
+    <string name="network_error">Network error</string>
 </resources>

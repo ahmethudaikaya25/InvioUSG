@@ -78,7 +78,7 @@ fun setErrorVisibility(view: MaterialTextView, uiState: UIState) {
                     view.visibility = VISIBLE
                 }
                 else -> {
-                    view.text = view.context.getString(R.string.database_error)
+                    view.text = view.context.getString(R.string.network_error)
                     view.visibility = VISIBLE
                 }
             }

@@ -14,4 +14,5 @@
     <string name="welcome_app">InvioUSG Uygulamasına Hoş Geldiniz</string>
     <string name="recently_viewed">Önceden Görüntülenenler</string>
     <string name="database_error">Veritabanı Hatası</string>
+    <string name="network_error">Bağlantı Hatası</string>
 </resources>

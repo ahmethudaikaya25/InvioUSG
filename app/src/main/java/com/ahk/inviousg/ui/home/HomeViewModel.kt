@@ -41,7 +41,7 @@ class HomeViewModel @Inject constructor(
 
         getDetails(item)
             .subscribeOn(Schedulers.io())
-            .doOnSuccess { details ->
+            .subscribe({ details ->
                 val date = Calendar.getInstance()
                 addRecentlyViewedUseCase.invoke(item.mapToRecentlyViewed(date.toString()))
                     .subscribeOn(Schedulers.io())
@@ -53,10 +53,9 @@ class HomeViewModel @Inject constructor(
                         mutableUIState.postValue(UIState.Error(error, error.message))
                     }
                     .subscribe()
-            }.doOnError { error ->
+            }, { error ->
                 mutableUIState.postValue(UIState.Error(error, error.message))
-            }
-            .subscribe()
+            })
     }
 
     private fun getDetails(item: MovieSummary): Single<DetailedMovie> {

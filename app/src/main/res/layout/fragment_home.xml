@@ -27,8 +27,8 @@
 
         <View
             android:id="@+id/title_divider"
-            android:layout_width="match_parent"
             style="@style/horizontal_divider"
+            android:layout_width="match_parent"
             app:layout_constraintTop_toBottomOf="@id/title" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -38,7 +38,7 @@
             android:layout_margin="@dimen/medium_margin"
             android:text="@string/recently_viewed"
             android:textSize="@dimen/medium_text_size"
-            app:recentlyViewedTitleVisibility="@{viewModel.uiState}"
+            app:hideOnError="@{viewModel.uiState}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/title_divider" />
 
@@ -48,22 +48,23 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_margin="@dimen/medium_margin"
-            app:layout_constraintTop_toBottomOf="@id/recent_viewed_title"
             android:orientation="horizontal"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+            app:hideOnError="@{viewModel.uiState}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintTop_toBottomOf="@id/recent_viewed_title" />
 
         <com.google.android.material.progressindicator.CircularProgressIndicator
             android:id="@+id/circular_progress"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            app:elevation="10dp"
-            app:loadingVisibility="@{viewModel.uiState}"
             android:indeterminate="true"
-            app:showAnimationBehavior="inward"
-            app:layout_constraintTop_toTopOf="parent"
+            app:elevation="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:loadingVisibility="@{viewModel.uiState}"
+            app:showAnimationBehavior="inward" />
 
 
         <com.google.android.material.textview.MaterialTextView
@@ -71,10 +72,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:homeErrorVisibility="@{viewModel.uiState}"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
