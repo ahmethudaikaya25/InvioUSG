@@ -3,6 +3,7 @@ package com.ahk.inviousg.ui.search
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.ahk.inviousg.BuildConfig
 import com.ahk.inviousg.data.model.DetailedMovie
 import com.ahk.inviousg.data.model.MovieSummary
 import com.ahk.inviousg.domain.moviedb.AddRecentlyViewedUseCase
