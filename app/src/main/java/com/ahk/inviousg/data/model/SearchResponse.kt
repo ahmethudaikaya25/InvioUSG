@@ -6,7 +6,7 @@ data class SearchResponse(
     @SerializedName("Response")
     val response: String,
     @SerializedName("Search")
-    val summaryItems: List<SummaryItem>,
+    val movieSummaries: List<MovieSummary>,
     val totalResults: String,
     @SerializedName("Error")
     val error: String

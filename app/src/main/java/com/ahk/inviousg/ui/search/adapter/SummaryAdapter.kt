@@ -6,17 +6,17 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.ahk.inviousg.data.model.SummaryItem
+import com.ahk.inviousg.data.model.MovieSummary
 import com.ahk.inviousg.databinding.SearchItemBinding
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 
 class SummaryAdapter(
-    var summaryItems: List<SummaryItem>
+    var movieSummaries: List<MovieSummary>
 ) : RecyclerView.Adapter<SummaryAdapter.SummaryViewHolder>() {
 
-    private val onClick: PublishSubject<SummaryItem> = PublishSubject.create()
-    val mutableOnClick: Observable<SummaryItem> = onClick
+    private val onClick: PublishSubject<MovieSummary> = PublishSubject.create()
+    val mutableOnClick: Observable<MovieSummary> = onClick
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SummaryViewHolder {
         val searchItemBinding = DataBindingUtil.inflate(
@@ -32,8 +32,8 @@ class SummaryAdapter(
     inner class SummaryViewHolder(private val searchItemBinding: SearchItemBinding) :
         RecyclerView.ViewHolder(searchItemBinding.root), View.OnClickListener {
 
-        fun bind(summaryItem: SummaryItem) {
-            searchItemBinding.summaryItem = summaryItem
+        fun bind(movieSummary: MovieSummary) {
+            searchItemBinding.summaryItem = movieSummary
             searchItemBinding.root.setOnClickListener(this)
             searchItemBinding.executePendingBindings()
         }
@@ -41,7 +41,7 @@ class SummaryAdapter(
         override fun onClick(v: View?) {
             val position = absoluteAdapterPosition
             if (position != RecyclerView.NO_POSITION) {
-                summaryItems[position].let {
+                movieSummaries[position].let {
                     onClick.onNext(it)
                 }
             }
@@ -49,17 +49,17 @@ class SummaryAdapter(
     }
 
     override fun getItemCount(): Int {
-        return summaryItems.size
+        return movieSummaries.size
     }
 
     override fun onBindViewHolder(holder: SummaryViewHolder, position: Int) {
-        holder.bind(summaryItems[position])
+        holder.bind(movieSummaries[position])
     }
 
-    fun setData(newData: List<SummaryItem>) {
-        val diffUtil = SummaryDiffUtil(summaryItems, newData)
+    fun setData(newData: List<MovieSummary>) {
+        val diffUtil = SummaryDiffUtil(movieSummaries, newData)
         val diffResult = DiffUtil.calculateDiff(diffUtil)
-        summaryItems = newData
+        movieSummaries = newData
         diffResult.dispatchUpdatesTo(this)
     }
 }

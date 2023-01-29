@@ -27,4 +27,15 @@
         <item name="borderWidth">3dp</item>
     </style>
 
+    <style name="filter_button" parent="Widget.MaterialComponents.Button">
+        <item name="android:drawableBottom">@drawable/section_header</item>
+        <item name="android:drawablePadding">@dimen/drawable_padding</item>
+        <item name="android:layout_margin">@dimen/xsmall_margin</item>
+        <item name="android:backgroundTint">@color/cardview_light_background</item>
+        <item name="android:textColor">@color/md_theme_dark_secondaryContainer</item>
+        <item name="android:textSize">@dimen/small_text_size</item>
+        <item name="borderRound">0dp</item>
+        <item name="borderWidth">0dp</item>
+        <item name="strokeWidth">0dp</item>
+    </style>
 </resources>

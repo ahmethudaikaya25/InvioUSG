@@ -8,8 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.ahk.inviousg.data.model.DetailedResponse
-import com.ahk.inviousg.data.model.SummaryItem
+import com.ahk.inviousg.data.model.DetailedMovie
+import com.ahk.inviousg.data.model.MovieSummary
 import com.ahk.inviousg.databinding.FragmentSearchBinding
 import com.ahk.inviousg.ui.search.adapter.SummaryAdapter
 import com.ahk.inviousg.ui.search.state.UIState
@@ -35,6 +35,8 @@ class Search : Fragment() {
         binding.searchResults.layoutManager =
             StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
 
+        viewModel.startupCheckup()
+
         return binding.root
     }
 
@@ -51,30 +53,27 @@ class Search : Fragment() {
             is UIState.Success -> {
                 onSearchResultReceived(uiState.successStateModel.searchResults)
             }
-            is UIState.Error -> {
-                // show error state
-            }
             is UIState.NavigateToDetailScreen -> {
-                onNavigateToDetailScreen(uiState.detailedResponse)
+                onNavigateToDetailScreen(uiState.detailedMovie)
             }
             else -> {
+                println("Unhandled state: $uiState")
             }
         }
     }
 
-    private fun onIdleState() {
-    }
+    private fun onIdleState() {}
 
-    private fun onSearchResultReceived(summaryItems: List<SummaryItem>) {
-        summaryItems.let {
+    private fun onSearchResultReceived(movieSummaries: List<MovieSummary>) {
+        movieSummaries.let {
             (binding.searchResults.adapter as SummaryAdapter).setData(it)
         }
     }
 
-    private fun onNavigateToDetailScreen(detailedResponse: DetailedResponse) {
+    private fun onNavigateToDetailScreen(detailedMovie: DetailedMovie) {
         findNavController().navigate(
             SearchDirections.actionNavigationSearchToNavigationDetailed(
-                detailedResponse
+                detailedMovie
             )
         )
     }

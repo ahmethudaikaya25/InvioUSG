@@ -7,4 +7,11 @@
     <string name="home">Ana sayfa</string>
     <string name="search">Ara</string>
     <string name="search_hint">Ne aramak isterdiniz</string>
+    <string name="all">Tamamı</string>
+    <string name="movie">Film</string>
+    <string name="series">Dizi</string>
+    <string name="episode">Bölüm</string>
+    <string name="welcome_app">InvioUSG Uygulamasına Hoş Geldiniz</string>
+    <string name="recently_viewed">Önceden Görüntülenenler</string>
+    <string name="database_error">Veritabanı Hatası</string>
 </resources>

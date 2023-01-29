@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
@@ -33,15 +34,16 @@ class Detailed : Fragment() {
         binding = FragmentDetailedBinding.inflate(inflater, container, false)
 
         binding.lifecycleOwner = viewLifecycleOwner
-        loadImage(binding.poster, args.detailedInfo.poster ?: "")
-        binding.title.text = args.detailedInfo.title
-        binding.time.text = String.format("%s minutes", args.detailedInfo.runtime)
-        binding.imdbPoint.text = String.format("%s/10", args.detailedInfo.imdbRating)
-        binding.releasedDate.text = args.detailedInfo.released
-        binding.description.text = args.detailedInfo.plot
-        val genres = args.detailedInfo.genre?.split(",")
+        loadImage(binding.poster, args.detailedMovie.poster ?: "")
+        binding.title.text = args.detailedMovie.title
+        binding.time.text = String.format("%s minutes", args.detailedMovie.runtime)
+        binding.imdbPoint.text = String.format("%s/10", args.detailedMovie.imdbRating)
+        binding.releasedDate.text = args.detailedMovie.released
+        binding.description.text = args.detailedMovie.plot
+        val genres = args.detailedMovie.genre?.split(",")
         binding.genreList.layoutManager = GridLayoutManager(context, 2)
         binding.genreList.adapter = GenreAdapter(genres ?: emptyList())
+
         return binding.root
     }
 
@@ -65,7 +67,7 @@ class Detailed : Fragment() {
 
                 )
                 .into(view)
-                .onLoadFailed(view.context.getDrawable(R.drawable.default_poster))
+                .onLoadFailed(AppCompatResources.getDrawable(view.context, R.drawable.default_poster))
         }
     }
 }

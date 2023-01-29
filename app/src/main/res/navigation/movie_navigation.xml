@@ -14,8 +14,8 @@
             app:popUpTo="@id/movie_navigation"
             app:popUpToInclusive="true" >
             <argument
-                android:name="detailedInfo"
-                app:argType="com.ahk.inviousg.data.model.DetailedResponse" />
+                android:name="detailedMovie"
+                app:argType="com.ahk.inviousg.data.model.DetailedMovie" />
         </action>
     </fragment>
     <fragment
@@ -28,8 +28,8 @@
             app:popUpTo="@id/movie_navigation"
             app:popUpToInclusive="true">
             <argument
-                android:name="detailedInfo"
-                app:argType="com.ahk.inviousg.data.model.DetailedResponse" />
+                android:name="detailedMovie"
+                app:argType="com.ahk.inviousg.data.model.DetailedMovie" />
         </action>
     </fragment>
     <fragment
@@ -37,8 +37,8 @@
         android:name="com.ahk.inviousg.ui.detailed.Detailed"
         android:label="Detailed">
         <argument
-            android:name="detailedInfo"
-            app:argType="com.ahk.inviousg.data.model.DetailedResponse" />
+            android:name="detailedMovie"
+            app:argType="com.ahk.inviousg.data.model.DetailedMovie" />
         <action
             android:id="@+id/action_navigation_detailed_to_navigation_search2"
             app:destination="@id/navigation_search" />

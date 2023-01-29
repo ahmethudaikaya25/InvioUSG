@@ -14,4 +14,11 @@
     <string name="defaultType" translatable="false">Type</string>
     <string name="defaultYear" translatable="false">Year</string>
     <string name="defaultIMDBId" translatable="false">IMDBId</string>
+    <string name="all">All</string>
+    <string name="movie">movie</string>
+    <string name="series">series</string>
+    <string name="episode">episode</string>
+    <string name="welcome_app">Welcome to InvioUSG App</string>
+    <string name="recently_viewed">Recently Viewed</string>
+    <string name="database_error">Database error</string>
 </resources>

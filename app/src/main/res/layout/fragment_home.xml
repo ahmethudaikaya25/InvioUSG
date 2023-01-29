@@ -1,23 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.ahk.inviousg.ui.home.HomeViewModel" />
     </data>
 
-    <FrameLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.home.Home">
+        android:layout_height="match_parent">
 
-        <!-- TODO: Update blank fragment layout -->
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/large_margin"
+            android:text="@string/welcome_app"
+            android:textSize="@dimen/large_text_size"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/title_divider"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment" />
+            style="@style/horizontal_divider"
+            app:layout_constraintTop_toBottomOf="@id/title" />
 
-    </FrameLayout>
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/recent_viewed_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/medium_margin"
+            android:text="@string/recently_viewed"
+            android:textSize="@dimen/medium_text_size"
+            app:recentlyViewedTitleVisibility="@{viewModel.uiState}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title_divider" />
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recent_viewed"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/medium_margin"
+            app:layout_constraintTop_toBottomOf="@id/recent_viewed_title"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/circular_progress"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:elevation="10dp"
+            app:loadingVisibility="@{viewModel.uiState}"
+            android:indeterminate="true"
+            app:showAnimationBehavior="inward"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/error_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:homeErrorVisibility="@{viewModel.uiState}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

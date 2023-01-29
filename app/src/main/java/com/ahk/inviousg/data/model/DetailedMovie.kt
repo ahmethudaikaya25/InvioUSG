@@ -2,10 +2,10 @@ package com.ahk.inviousg.data.model
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class DetailedResponse(
+data class DetailedMovie(
     @SerializedName("Actors")
     val actors: String?,
     @SerializedName("Awards")
