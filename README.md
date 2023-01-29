@@ -16,9 +16,9 @@ Libraries and Technologies Used
 * Glide
 * Hilt
 ## Screenshots
-Detail screen: [https://github.com/ahmethudaikaya25/InvioUSG/blob/main/Screenshot_20230130-000459.png]
-Search screen: [https://github.com/ahmethudaikaya25/InvioUSG/blob/main/Screenshot_20230130-000446.png]
-Main screen: [https://github.com/ahmethudaikaya25/InvioUSG/blob/main/Screenshot_20230130-000430.png]
+Detail screen: ![Alt text](./Screenshot_20230130-000459.png)
+Search screen: ![Alt text](./Screenshot_20230130-000446.png)
+Main screen: ![Alt text](./Screenshot_20230130-000430.png)
 ## Getting Started
 To use this app, clone or download the repository and import it into Android Studio. You'll need to obtain an API key from OMDB API and replace it in the com.ahk.inviousg.util.Constants file.
 
