@@ -1,10 +1,8 @@
 package com.ahk.inviousg.data.model
 
-import android.os.Parcelable
+import com.ahk.inviousg.data.model.dto.DetailedMovieDTO
 import com.google.gson.annotations.SerializedName
-import kotlinx.parcelize.Parcelize
 
-@Parcelize
 data class DetailedMovie(
     @SerializedName("Actors")
     val actors: String?,
@@ -56,4 +54,16 @@ data class DetailedMovie(
     val imdbID: String?,
     val imdbRating: String?,
     val imdbVotes: String?
-) : Parcelable
+) {
+    fun mapToDetailedMovieDTO(): DetailedMovieDTO {
+        return DetailedMovieDTO(
+            genre = genre,
+            plot = plot,
+            poster = poster,
+            released = released,
+            runtime = runtime,
+            title = title,
+            imdbRating = imdbRating
+        )
+    }
+}

@@ -5,7 +5,7 @@
     <data>
         <variable
             name="summaryItem"
-            type="com.ahk.inviousg.data.model.MovieSummary" />
+            type="com.ahk.inviousg.data.model.dto.MovieSummaryDTO" />
     </data>
 
     <com.google.android.material.card.MaterialCardView

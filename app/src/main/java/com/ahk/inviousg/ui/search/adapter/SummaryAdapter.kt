@@ -6,17 +6,17 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.ahk.inviousg.data.model.MovieSummary
+import com.ahk.inviousg.data.model.dto.MovieSummaryDTO
 import com.ahk.inviousg.databinding.SearchItemBinding
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 
 class SummaryAdapter(
-    var movieSummaries: List<MovieSummary>
+    var movieSummaries: List<MovieSummaryDTO>
 ) : RecyclerView.Adapter<SummaryAdapter.SummaryViewHolder>() {
 
-    private val onClick: PublishSubject<MovieSummary> = PublishSubject.create()
-    val mutableOnClick: Observable<MovieSummary> = onClick
+    private val onClick: PublishSubject<MovieSummaryDTO> = PublishSubject.create()
+    val mutableOnClick: Observable<MovieSummaryDTO> = onClick
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SummaryViewHolder {
         val searchItemBinding = DataBindingUtil.inflate(
@@ -32,7 +32,7 @@ class SummaryAdapter(
     inner class SummaryViewHolder(private val searchItemBinding: SearchItemBinding) :
         RecyclerView.ViewHolder(searchItemBinding.root), View.OnClickListener {
 
-        fun bind(movieSummary: MovieSummary) {
+        fun bind(movieSummary: MovieSummaryDTO) {
             searchItemBinding.summaryItem = movieSummary
             searchItemBinding.root.setOnClickListener(this)
             searchItemBinding.executePendingBindings()
@@ -56,7 +56,7 @@ class SummaryAdapter(
         holder.bind(movieSummaries[position])
     }
 
-    fun setData(newData: List<MovieSummary>) {
+    fun setData(newData: List<MovieSummaryDTO>) {
         val diffUtil = SummaryDiffUtil(movieSummaries, newData)
         val diffResult = DiffUtil.calculateDiff(diffUtil)
         movieSummaries = newData

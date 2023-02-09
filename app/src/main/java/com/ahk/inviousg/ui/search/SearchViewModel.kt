@@ -3,9 +3,8 @@ package com.ahk.inviousg.ui.search
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.ahk.inviousg.BuildConfig
-import com.ahk.inviousg.data.model.DetailedMovie
-import com.ahk.inviousg.data.model.MovieSummary
+import com.ahk.inviousg.data.model.dto.DetailedMovieDTO
+import com.ahk.inviousg.data.model.dto.MovieSummaryDTO
 import com.ahk.inviousg.domain.moviedb.AddRecentlyViewedUseCase
 import com.ahk.inviousg.domain.omdb.GetDetailsUseCase
 import com.ahk.inviousg.domain.omdb.SearchUseCase
@@ -53,12 +52,12 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    private fun getDetails(item: MovieSummary): Single<DetailedMovie> {
+    private fun getDetails(item: MovieSummaryDTO): Single<DetailedMovieDTO> {
         mutableUIState.postValue(UIState.Loading(LoadingType.FRAGMENT_LOADING))
         return getDetailsUseCase.invoke(item.imdbID)
     }
 
-    fun onListItemClicked(item: MovieSummary) {
+    fun onListItemClicked(item: MovieSummaryDTO) {
         mutableUIState.postValue(UIState.Loading(LoadingType.FRAGMENT_LOADING))
         getDetails(item)
             .subscribeOn(Schedulers.io())

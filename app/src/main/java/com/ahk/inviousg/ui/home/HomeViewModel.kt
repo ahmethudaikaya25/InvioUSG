@@ -3,8 +3,8 @@ package com.ahk.inviousg.ui.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.ahk.inviousg.data.model.DetailedMovie
-import com.ahk.inviousg.data.model.MovieSummary
+import com.ahk.inviousg.data.model.dto.DetailedMovieDTO
+import com.ahk.inviousg.data.model.dto.MovieSummaryDTO
 import com.ahk.inviousg.domain.moviedb.AddRecentlyViewedUseCase
 import com.ahk.inviousg.domain.moviedb.GetRecentlyViewedUseCase
 import com.ahk.inviousg.domain.omdb.GetDetailsUseCase
@@ -36,10 +36,10 @@ class HomeViewModel @Inject constructor(
             })
     }
 
-    fun onListItemClicked(item: MovieSummary) {
+    fun onListItemClicked(item: MovieSummaryDTO) {
         mutableUIState.postValue(UIState.Loading)
 
-        getDetails(item)
+        getDetails(item.imdbID)
             .subscribeOn(Schedulers.io())
             .subscribe({ details ->
                 val date = Calendar.getInstance()
@@ -58,8 +58,8 @@ class HomeViewModel @Inject constructor(
             })
     }
 
-    private fun getDetails(item: MovieSummary): Single<DetailedMovie> {
+    private fun getDetails(imdbID: String): Single<DetailedMovieDTO> {
         mutableUIState.postValue(UIState.Loading)
-        return getDetailsUseCase.invoke(item.imdbID)
+        return getDetailsUseCase.invoke(imdbID)
     }
 }

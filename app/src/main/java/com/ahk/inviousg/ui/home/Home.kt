@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.ahk.inviousg.data.model.DetailedMovie
-import com.ahk.inviousg.data.model.MovieSummary
+import com.ahk.inviousg.data.model.dto.DetailedMovieDTO
+import com.ahk.inviousg.data.model.dto.MovieSummaryDTO
 import com.ahk.inviousg.databinding.FragmentHomeBinding
 import com.ahk.inviousg.ui.home.state.UIState
 import com.ahk.inviousg.ui.search.adapter.SummaryAdapter
@@ -56,13 +56,13 @@ class Home : Fragment() {
         }
     }
 
-    private fun onSearchResultReceived(movieSummaries: List<MovieSummary>) {
+    private fun onSearchResultReceived(movieSummaries: List<MovieSummaryDTO>) {
         movieSummaries.let {
             (binding.recentViewed.adapter as SummaryAdapter).setData(it)
         }
     }
 
-    private fun onNavigateToDetailScreen(detailedMovie: DetailedMovie) {
+    private fun onNavigateToDetailScreen(detailedMovie: DetailedMovieDTO) {
         findNavController().navigate(
             HomeDirections.actionNavigationHomeToNavigationDetailed(
                 detailedMovie

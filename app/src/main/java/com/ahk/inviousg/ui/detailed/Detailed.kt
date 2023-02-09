@@ -67,7 +67,12 @@ class Detailed : Fragment() {
 
                 )
                 .into(view)
-                .onLoadFailed(AppCompatResources.getDrawable(view.context, R.drawable.default_poster))
+                .onLoadFailed(
+                    AppCompatResources.getDrawable(
+                        view.context,
+                        R.drawable.default_poster
+                    )
+                )
         }
     }
 }

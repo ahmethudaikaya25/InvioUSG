@@ -1,6 +1,8 @@
 package com.ahk.inviousg.data.model
 
+import com.ahk.inviousg.data.model.dto.MovieSummaryDTO
 import com.google.gson.annotations.SerializedName
+
 data class MovieSummary(
     @SerializedName("Poster")
     val poster: String,
@@ -12,11 +14,10 @@ data class MovieSummary(
     val year: String,
     val imdbID: String
 ) {
-    fun mapToRecentlyViewed(date: String) = RecentlyViewed(
+    fun mapToMovieSummaryDTO() = MovieSummaryDTO(
         title = title,
         year = year,
         imdbID = imdbID,
-        poster = poster,
-        addedDate = date
+        poster = poster
     )
 }

@@ -1,11 +1,11 @@
 package com.ahk.inviousg.ui.search.adapter
 
 import androidx.recyclerview.widget.DiffUtil
-import com.ahk.inviousg.data.model.MovieSummary
+import com.ahk.inviousg.data.model.dto.MovieSummaryDTO
 
 class SummaryDiffUtil(
-    private val oldList: List<MovieSummary>,
-    private val newList: List<MovieSummary>
+    private val oldList: List<MovieSummaryDTO>,
+    private val newList: List<MovieSummaryDTO>
 ) : DiffUtil.Callback() {
     override fun getOldListSize(): Int = oldList.size
 
@@ -20,7 +20,6 @@ class SummaryDiffUtil(
         return oldItem.imdbID == newItem.imdbID &&
             oldItem.title == newItem.title &&
             oldItem.year == newItem.year &&
-            oldItem.type == newItem.type &&
             oldItem.poster == newItem.poster
     }
 }
