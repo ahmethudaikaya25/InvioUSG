@@ -2,7 +2,10 @@ package com.ahk.inviousg.domain
 
 import com.ahk.inviousg.data.api.OMDBAPIService
 import com.ahk.inviousg.data.database.MovieDao
+import com.ahk.inviousg.data.firebase.FirebaseService
 import com.ahk.inviousg.data.internetstate.InternetStateProvider
+import com.ahk.inviousg.domain.firebase.FetchRemoteConfigUseCase
+import com.ahk.inviousg.domain.firebase.RemoteConfigRepository
 import com.ahk.inviousg.domain.internetstate.InternetStateRepository
 import com.ahk.inviousg.domain.moviedb.AddRecentlyViewedUseCase
 import com.ahk.inviousg.domain.moviedb.GetRecentlyViewedUseCase
@@ -19,7 +22,9 @@ import dagger.hilt.components.SingletonComponent
 @InstallIn(SingletonComponent::class)
 class DomainModule {
     @Provides
-    fun provideOMDBRepository(omdbApiService: OMDBAPIService): OMDBRepository =
+    fun provideOMDBRepository(
+        omdbApiService: OMDBAPIService,
+    ): OMDBRepository =
         OMDBRepository(omdbApiService)
 
     @Provides
@@ -29,30 +34,42 @@ class DomainModule {
     @Provides
     fun provideSearchUseCase(
         omdbRepository: OMDBRepository,
-        internetStateRepository: InternetStateRepository
+        internetStateRepository: InternetStateRepository,
     ): SearchUseCase =
         SearchUseCase(omdbRepository, internetStateRepository)
 
     @Provides
     fun provideGetDetailsUseCase(
         omdbRepository: OMDBRepository,
-        internetStateRepository: InternetStateRepository
+        internetStateRepository: InternetStateRepository,
+        fetchRemoteConfigUseCase: FetchRemoteConfigUseCase,
     ): GetDetailsUseCase =
-        GetDetailsUseCase(omdbRepository, internetStateRepository)
+        GetDetailsUseCase(omdbRepository, internetStateRepository, fetchRemoteConfigUseCase)
 
     @Provides
     fun provideGetRecentlyViewedUseCase(
-        recentlyViewedRepository: RecentlyViewedRepository
+        recentlyViewedRepository: RecentlyViewedRepository,
     ): GetRecentlyViewedUseCase =
         GetRecentlyViewedUseCase(recentlyViewedRepository)
 
     @Provides
     fun provideAddRecentlyViewedUseCase(
-        recentlyViewedRepository: RecentlyViewedRepository
+        recentlyViewedRepository: RecentlyViewedRepository,
     ): AddRecentlyViewedUseCase =
         AddRecentlyViewedUseCase(recentlyViewedRepository)
 
     @Provides
     fun provideRecentlyViewedRepository(movieDao: MovieDao): RecentlyViewedRepository =
         RecentlyViewedRepository(movieDao)
+
+    @Provides
+    fun provideRemoteConfigRepository(firebaseService: FirebaseService): RemoteConfigRepository =
+        RemoteConfigRepository(firebaseService)
+
+    @Provides
+    fun provideFetchRemoteConfigUseCase(
+        internetStateRepository: InternetStateRepository,
+        remoteConfigRepository: RemoteConfigRepository,
+    ): FetchRemoteConfigUseCase =
+        FetchRemoteConfigUseCase(internetStateRepository, remoteConfigRepository)
 }

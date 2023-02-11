@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.ahk.inviousg.data.model.dto.DetailedMovieDTO
 import com.ahk.inviousg.data.model.dto.MovieSummaryDTO
+import com.ahk.inviousg.domain.firebase.FetchRemoteConfigUseCase
 import com.ahk.inviousg.domain.moviedb.AddRecentlyViewedUseCase
 import com.ahk.inviousg.domain.omdb.GetDetailsUseCase
 import com.ahk.inviousg.domain.omdb.SearchUseCase
@@ -15,6 +16,8 @@ import com.ahk.inviousg.ui.search.state.models.QueryType
 import com.ahk.inviousg.ui.search.state.models.SuccessStateModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.Single
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import java.util.*
 import javax.inject.Inject
@@ -23,10 +26,14 @@ import javax.inject.Inject
 class SearchViewModel @Inject constructor(
     private val searchUseCase: SearchUseCase,
     private val getDetailsUseCase: GetDetailsUseCase,
-    private val addRecentlyViewedUseCase: AddRecentlyViewedUseCase
+    private val addRecentlyViewedUseCase: AddRecentlyViewedUseCase,
+    private val fetchRemoteConfigUseCase: FetchRemoteConfigUseCase,
 ) : ViewModel() {
 
-    private val mutableUIState = MutableLiveData<UIState>(UIState.Idle)
+    private val compositeDisposable = CompositeDisposable()
+
+    private val mutableUIState =
+        MutableLiveData<UIState>(UIState.Loading(LoadingType.SEARCH_LOADING))
     val uiState = mutableUIState as LiveData<UIState>
 
     private val mutableFormInformation = MutableLiveData(FormInformation())
@@ -35,21 +42,27 @@ class SearchViewModel @Inject constructor(
     fun searchTextChanged() = searchMovies()
 
     private fun searchMovies() {
+        lateinit var disposable: Disposable
         mutableUIState.postValue(UIState.Loading(LoadingType.SEARCH_LOADING))
         formInformation.value?.let {
-            searchUseCase.invoke(formInformation.value?.searchQuery ?: "", it.queryType)
-                .subscribeOn(Schedulers.io())
-                .subscribe({ result ->
-                    mutableUIState.postValue(UIState.Success(SuccessStateModel(result)))
-                }, { error ->
-                    mutableUIState.postValue(
-                        UIState.Error(
-                            exception = error,
-                            message = error.message
-                        )
+            disposable =
+                searchUseCase.invoke(formInformation.value?.searchQuery ?: "", it.queryType)
+                    .subscribeOn(Schedulers.io())
+                    .subscribe(
+                        { result ->
+                            mutableUIState.postValue(UIState.Success(SuccessStateModel(result)))
+                        },
+                        { error ->
+                            mutableUIState.postValue(
+                                UIState.Error(
+                                    exception = error,
+                                    message = error.message,
+                                ),
+                            )
+                        },
                     )
-                })
         }
+        disposable.let { compositeDisposable.add(it) }
     }
 
     private fun getDetails(item: MovieSummaryDTO): Single<DetailedMovieDTO> {
@@ -59,44 +72,50 @@ class SearchViewModel @Inject constructor(
 
     fun onListItemClicked(item: MovieSummaryDTO) {
         mutableUIState.postValue(UIState.Loading(LoadingType.FRAGMENT_LOADING))
-        getDetails(item)
+
+        val disposable = getDetails(item)
             .subscribeOn(Schedulers.io())
-            .doOnSuccess { detailedMovie ->
+            .flatMap { detailedMovie ->
                 val date = Calendar.getInstance()
-                addRecentlyViewedUseCase.invoke(item.mapToRecentlyViewed(date.toString()))
-                    .subscribeOn(Schedulers.io())
-                    .andThen {
-                        mutableUIState.postValue(
-                            UIState.NavigateToDetailScreen(
-                                LoadingType.FRAGMENT_LOADING,
-                                detailedMovie
-                            )
-                        )
-                    }
-                    .doOnError {
-                        mutableUIState.postValue(
-                            UIState.Error(
-                                exception = it,
-                                message = it.message
-                            )
-                        )
-                    }
-                    .subscribe()
-            }.doOnError { error ->
-                mutableUIState.postValue(UIState.Error(error, error.message))
+                return@flatMap addRecentlyViewedUseCase.invoke(item.mapToRecentlyViewed(date.toString()))
+                    .andThen(Single.just(detailedMovie))
             }
-            .subscribe()
+            .subscribe(
+                { detailedMovie ->
+                    mutableUIState.postValue(
+                        UIState.NavigateToDetailScreen(
+                            LoadingType.FRAGMENT_LOADING,
+                            detailedMovie,
+                        ),
+                    )
+                },
+                { error ->
+                    mutableUIState.postValue(UIState.Error(error, error.message))
+                },
+            )
+        compositeDisposable.add(disposable)
     }
 
     fun startupCheckup() {
         mutableUIState.postValue(UIState.Loading(LoadingType.STARTUP_LOADING))
-        searchUseCase.invoke("search", QueryType.ALL)
+        val disposable = fetchRemoteConfigUseCase.invoke()
             .subscribeOn(Schedulers.io())
-            .subscribe({ result ->
-                mutableUIState.postValue(UIState.Idle)
-            }, { error ->
-                mutableUIState.postValue(UIState.Error(exception = error, message = error.message))
-            })
+            .toSingleDefault(Any())
+            .flatMap { searchUseCase.invoke("search", QueryType.ALL) }
+            .subscribe(
+                {
+                    mutableUIState.postValue(UIState.Idle)
+                },
+                { error ->
+                    mutableUIState.postValue(
+                        UIState.Error(
+                            exception = error,
+                            message = error.message,
+                        ),
+                    )
+                },
+            )
+        compositeDisposable.add(disposable)
     }
 
     fun onFilterChanged(queryType: QueryType) {
@@ -106,5 +125,10 @@ class SearchViewModel @Inject constructor(
             mutableFormInformation.postValue(form)
         }
         searchMovies()
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        compositeDisposable.clear()
     }
 }

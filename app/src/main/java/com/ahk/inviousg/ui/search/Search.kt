@@ -14,23 +14,28 @@ import com.ahk.inviousg.databinding.FragmentSearchBinding
 import com.ahk.inviousg.ui.search.adapter.SummaryAdapter
 import com.ahk.inviousg.ui.search.state.UIState
 import dagger.hilt.android.AndroidEntryPoint
+import io.reactivex.disposables.CompositeDisposable
 
 @AndroidEntryPoint
 class Search : Fragment() {
     lateinit var binding: FragmentSearchBinding
     val viewModel: SearchViewModel by viewModels()
+
+    private val compositeDisposable = CompositeDisposable()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         binding = FragmentSearchBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
         binding.searchResults.adapter = SummaryAdapter(emptyList()).apply {
-            mutableOnClick.subscribe(
-                viewModel::onListItemClicked
+            val disposable = mutableOnClick.subscribe(
+                viewModel::onListItemClicked,
             )
+            compositeDisposable.add(disposable)
         }
         binding.searchResults.layoutManager =
             StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
@@ -47,9 +52,6 @@ class Search : Fragment() {
 
     private fun onStateChange(uiState: UIState) {
         when (uiState) {
-            is UIState.Idle -> {
-                onIdleState()
-            }
             is UIState.Success -> {
                 onSearchResultReceived(uiState.successStateModel.searchResults)
             }
@@ -62,8 +64,6 @@ class Search : Fragment() {
         }
     }
 
-    private fun onIdleState() {}
-
     private fun onSearchResultReceived(movieSummaries: List<MovieSummaryDTO>) {
         movieSummaries.let {
             (binding.searchResults.adapter as SummaryAdapter).setData(it)
@@ -73,8 +73,13 @@ class Search : Fragment() {
     private fun onNavigateToDetailScreen(detailedMovie: DetailedMovieDTO) {
         findNavController().navigate(
             SearchDirections.actionNavigationSearchToNavigationDetailed(
-                detailedMovie
-            )
+                detailedMovie,
+            ),
         )
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        compositeDisposable.clear()
     }
 }

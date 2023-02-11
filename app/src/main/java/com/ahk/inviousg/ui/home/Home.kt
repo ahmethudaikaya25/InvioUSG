@@ -13,37 +13,37 @@ import com.ahk.inviousg.databinding.FragmentHomeBinding
 import com.ahk.inviousg.ui.home.state.UIState
 import com.ahk.inviousg.ui.search.adapter.SummaryAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import io.reactivex.disposables.CompositeDisposable
 
 @AndroidEntryPoint
 class Home : Fragment() {
 
     lateinit var binding: FragmentHomeBinding
     val viewModel: HomeViewModel by viewModels()
+    private val compositeDisposable = CompositeDisposable()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
         binding.recentViewed.adapter = SummaryAdapter(emptyList()).apply {
-            mutableOnClick.subscribe(viewModel::onListItemClicked)
+            val disposable = mutableOnClick.subscribe(viewModel::onListItemClicked)
+            compositeDisposable.add(disposable)
         }
+        viewModel.startFragment()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.uiState.observe(viewLifecycleOwner, ::onStateChange)
-        viewModel.receiveRecentlyViewed()
     }
 
     private fun onStateChange(uiState: UIState) {
         when (uiState) {
-            is UIState.Idle -> {
-                // TODO: Handle idle state
-            }
             is UIState.Success -> {
                 onSearchResultReceived(uiState.movieList.movieList)
             }
@@ -65,8 +65,13 @@ class Home : Fragment() {
     private fun onNavigateToDetailScreen(detailedMovie: DetailedMovieDTO) {
         findNavController().navigate(
             HomeDirections.actionNavigationHomeToNavigationDetailed(
-                detailedMovie
-            )
+                detailedMovie,
+            ),
         )
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        compositeDisposable.clear()
     }
 }

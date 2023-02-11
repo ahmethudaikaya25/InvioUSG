@@ -7,6 +7,7 @@ sealed class DataExceptions : Exception() {
     data class DataUnknownException(override val message: String) : DataExceptions()
     data class APIKeyNotProvidedException(override val message: String) : DataExceptions()
     data class InternetNotAvailableException(override val message: String) : DataExceptions()
+    data class ParametersAreDownloadingException(override val message: String) : DataExceptions()
 
     companion object {
         fun getException(message: String): DataExceptions {

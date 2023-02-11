@@ -8,7 +8,7 @@ import android.os.Build
 class InternetStateChecker(val context: Context) : InternetStateProvider {
     override fun check(): Boolean {
         val connectivityManager = context.applicationContext.getSystemService(
-            Context.CONNECTIVITY_SERVICE
+            Context.CONNECTIVITY_SERVICE,
         ) as ConnectivityManager
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

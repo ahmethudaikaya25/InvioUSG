@@ -11,16 +11,19 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 class APIModule {
     @Provides
+    @Singleton
     fun provideAuthInterceptor(): Interceptor {
         return Interceptor { chain: Interceptor.Chain ->
             val initialRequest = chain.request()
 
             val newUrl = initialRequest.url.newBuilder()
+                .host(BASE_URL)
                 .build()
 
             val newRequest = initialRequest.newBuilder()
@@ -32,6 +35,7 @@ class APIModule {
     }
 
     @Provides
+    @Singleton
     fun provideLoggingInterceptor(): HttpLoggingInterceptor {
         return HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
@@ -39,9 +43,10 @@ class APIModule {
     }
 
     @Provides
+    @Singleton
     fun provideOkHttpClient(
         authInterceptor: Interceptor,
-        loggingInterceptor: HttpLoggingInterceptor
+        loggingInterceptor: HttpLoggingInterceptor,
     ): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(authInterceptor)
@@ -50,17 +55,22 @@ class APIModule {
     }
 
     @Provides
-    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
+    @Singleton
+    fun provideRetrofit(
+        okHttpClient: OkHttpClient,
+    ): Retrofit {
+        val url = "http://$BASE_URL"
         return Retrofit.Builder()
+            .baseUrl(url)
             .client(okHttpClient)
-            .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build()
     }
 
     @Provides
-    fun provideDisneyService(retrofit: Retrofit): OMDBAPIService {
+    @Singleton
+    fun provideAPIService(retrofit: Retrofit): OMDBAPIService {
         return retrofit.create(OMDBAPIService::class.java)
     }
 }

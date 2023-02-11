@@ -1,5 +1,5 @@
 package com.ahk.inviousg.util
 
-val API_KEY: String = "c3ebfd8a"
-val BASE_URL: String = "http://www.omdbapi.com/?"
-
+const val DEFAULT_API_ADDRESS = "defaultApiAdress.com/"
+var API_KEY: String = ""
+var BASE_URL: String = DEFAULT_API_ADDRESS

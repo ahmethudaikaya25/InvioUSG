@@ -10,19 +10,19 @@ interface OMDBAPIService {
     @GET("/?")
     fun searchMovies(
         @Query("apikey") apiKey: String,
-        @Query("s") query: String
+        @Query("s") query: String,
     ): Single<SearchResponse>
 
     @GET("/?")
     fun searchMovies(
         @Query("apikey") apiKey: String,
         @Query("s") query: String,
-        @Query("type") queryType: String
+        @Query("type") queryType: String,
     ): Single<SearchResponse>
 
     @GET("/?")
     fun getMovieDetails(
         @Query("apikey") apiKey: String,
-        @Query("i") imdbID: String
+        @Query("i") imdbID: String,
     ): Single<DetailedMovie>
 }

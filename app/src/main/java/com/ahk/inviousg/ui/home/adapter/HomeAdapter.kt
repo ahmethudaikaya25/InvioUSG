@@ -2,7 +2,6 @@ package com.ahk.inviousg.ui.home.adapter
 
 import android.view.View
 import androidx.databinding.BindingAdapter
-import androidx.recyclerview.widget.RecyclerView
 import com.ahk.inviousg.R
 import com.ahk.inviousg.data.model.DataExceptions
 import com.ahk.inviousg.ui.home.state.UIState

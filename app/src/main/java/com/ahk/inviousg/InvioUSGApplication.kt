@@ -4,5 +4,4 @@ import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
-class InvioUSGApplication: Application() {
-}
+class InvioUSGApplication : Application()

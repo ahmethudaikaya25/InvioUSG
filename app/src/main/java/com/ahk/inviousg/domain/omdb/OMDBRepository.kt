@@ -7,7 +7,7 @@ import com.ahk.inviousg.util.API_KEY
 import io.reactivex.Single
 
 class OMDBRepository(
-    private val omdbService: OMDBAPIService
+    private val omdbService: OMDBAPIService,
 ) {
     fun searchMovies(query: String): Single<List<MovieSummaryDTO>> =
         mapSearchResponse(omdbService.searchMovies(API_KEY, query))

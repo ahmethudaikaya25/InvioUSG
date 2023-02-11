@@ -9,7 +9,7 @@ import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 
 class RecentlyViewedRepository(
-    private val movieDao: MovieDao
+    private val movieDao: MovieDao,
 ) {
     fun getRecentlyViewed(): Single<List<MovieSummaryDTO>> {
         return Single.fromCallable(movieDao::getRecentMovies)
@@ -27,7 +27,7 @@ class RecentlyViewedRepository(
                 imdbID = it.imdbID,
                 title = it.title,
                 year = it.year,
-                poster = it.poster
+                poster = it.poster,
             )
         }
         return Single.just(movies).subscribeOn(Schedulers.io())

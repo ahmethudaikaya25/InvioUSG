@@ -29,7 +29,7 @@ class Detailed : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         binding = FragmentDetailedBinding.inflate(inflater, container, false)
 
@@ -56,22 +56,22 @@ class Detailed : Fragment() {
             url,
             LazyHeaders.Builder()
                 .addHeader("User-Agent", "5")
-                .build()
+                .build(),
         )
         theImage.let {
             Glide.with(view.context)
                 .load(theImage)
                 .apply(
                     RequestOptions()
-                        .error(R.drawable.default_poster)
+                        .error(R.drawable.default_poster),
 
                 )
                 .into(view)
                 .onLoadFailed(
                     AppCompatResources.getDrawable(
                         view.context,
-                        R.drawable.default_poster
-                    )
+                        R.drawable.default_poster,
+                    ),
                 )
         }
     }
